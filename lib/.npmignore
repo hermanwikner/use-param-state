@@ -1,0 +1,4 @@
+.parcel-cache
+src
+tsconfig.json
+yarn.lock

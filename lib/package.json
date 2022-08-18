@@ -1,0 +1,51 @@
+{
+  "name": "use-param-state",
+  "version": "0.0.0",
+  "description": "useState that stores the state in the url",
+  "scripts": {
+    "build": "parcel build --no-cache",
+    "watch": "rm -rf dist && parcel watch",
+    "publish": "yarn build && npm publish"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/esm/index.js"
+    }
+  },
+  "source": "./src/index.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "targets": {
+    "main": {
+      "optimize": true
+    },
+    "module": {
+      "optimize": true
+    }
+  },
+  "dependencies": {
+    "pako": "^2.0.4"
+  },
+  "devDependencies": {
+    "@parcel/packager-ts": "2.7.0",
+    "@parcel/transformer-typescript-types": "2.7.0",
+    "@types/pako": "^2.0.0",
+    "parcel": "^2.6.2",
+    "typescript": ">=3.0.0"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "connect",
+    "lines"
+  ],
+  "author": "Herman Wikner",
+  "license": "MIT"
+}
