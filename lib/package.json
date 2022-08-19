@@ -1,7 +1,7 @@
 {
   "name": "use-param-state",
   "version": "0.0.0",
-  "description": "useState that stores the state in the url",
+  "description": "A variant of the React useState hook that saves the state in the url",
   "scripts": {
     "build": "parcel build --no-cache",
     "watch": "rm -rf dist && parcel watch",
@@ -42,10 +42,18 @@
     "access": "public"
   },
   "keywords": [
+    "params",
     "react",
-    "connect",
-    "lines"
+    "state"
   ],
   "author": "Herman Wikner",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hermanwikner/use-param-state"
+  },
+  "bugs": {
+    "url": "https://github.com/hermanwikner/use-param-state/issues"
+  },
+  "homepage": "https://github.com/hermanwikner/use-param-state"
 }
