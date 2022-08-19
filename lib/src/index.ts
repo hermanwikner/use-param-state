@@ -44,13 +44,11 @@ export function useParamState<S>(props: {
 
     if (hasEncodedValue) {
       params?.set(key, encoded)
-      const loc = `${pathname}?${params}`
-      history.replaceState(null, '', loc)
+      history.replaceState(null, '', `${pathname}?${params}`)
     }
 
     if (!hasEncodedValue) {
-      params?.delete(key)
-      history.replaceState(null, '', `${pathname}?${params}`)
+      handleClear()
     }
 
     setInternal(tryDecode(encoded, initialState))
@@ -64,7 +62,7 @@ export function useParamState<S>(props: {
         handleClear()
       }
     }
-  }, [state, pathname, handleClear, clearOnUnmount])
+  }, [state, handleClear, clearOnUnmount])
 
   return [internal, setState, {removeParam: handleClear}]
 }
