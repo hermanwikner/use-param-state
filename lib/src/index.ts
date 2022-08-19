@@ -1,60 +1,66 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { encode, tryDecode } from "./utils";
+import {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from 'react'
+import {encode, tryDecode} from './utils'
 
-type ReturnType<S> = [S, Dispatch<SetStateAction<S>>];
-type InitialStateType<S> = S | (() => S);
-type KeyType = string;
+type ReturnType<S> = [S, Dispatch<SetStateAction<S>>]
+type InitialStateType<S> = S | (() => S)
+type KeyType = string
 
-export function useParamState<S>({
-  key,
-  initialState,
-}: {
-  key: KeyType;
-  initialState?: InitialStateType<S>;
+export function useParamState<S>(props: {
+  clearOnUnmount?: boolean
+  /**
+   * The initial state
+   */
+  initialState?: InitialStateType<S>
+  /**
+   * The URL parameter key for the encoded state
+   */
+  key: KeyType
 }): ReturnType<S> {
-  const pathname = window.location.pathname;
+  const {clearOnUnmount, initialState, key} = props
+  const pathname = window.location.pathname
 
   const _initialState = useMemo(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search)
 
-    return params?.get(key)
-      ? tryDecode(params?.get(key), initialState)
-      : initialState;
-  }, [initialState]);
+    return params?.get(key) ? tryDecode(params?.get(key), initialState) : initialState
+  }, [initialState])
 
-  const [state, setState] = useState<S>(_initialState);
-  const [internal, setInternal] = useState<S>(_initialState);
+  const [state, setState] = useState<S>(_initialState)
+  const [internal, setInternal] = useState<S>(_initialState)
+
+  const handleClear = useCallback(() => {
+    const params = new URLSearchParams(window.location.search)
+    params?.delete(key)
+    history.replaceState(null, '', `${pathname}?${params}`)
+  }, [pathname, key])
 
   const handleStateChange = useCallback(() => {
-    const encoded = state ? encode(JSON.stringify(state)) : "";
-    const hasEncodedValue = Boolean(encoded);
-    const params = new URLSearchParams(window.location.search);
+    const encoded = state ? encode(JSON.stringify(state)) : ''
+    const hasEncodedValue = Boolean(encoded)
+    const params = new URLSearchParams(window.location.search)
 
     if (hasEncodedValue) {
-      params?.set(key, encoded);
-      const loc = `${pathname}?${params}`;
-      history.replaceState(null, "", loc);
+      params?.set(key, encoded)
+      const loc = `${pathname}?${params}`
+      history.replaceState(null, '', loc)
     }
 
     if (!hasEncodedValue) {
-      const params = new URLSearchParams(window.location.search);
-      params?.delete(key);
-      history.replaceState(null, "", `${pathname}?${params}`);
+      handleClear()
     }
 
-    setInternal(tryDecode(encoded, initialState));
-  }, [state, initialState, pathname]);
+    setInternal(tryDecode(encoded, initialState))
+  }, [state, initialState, pathname, handleClear])
 
   useEffect(() => {
-    handleStateChange();
-  }, [state]);
+    handleStateChange()
 
-  return [internal, setState];
+    return () => {
+      if (clearOnUnmount) {
+        handleClear()
+      }
+    }
+  }, [state, pathname, handleClear, clearOnUnmount])
+
+  return [internal, setState]
 }
