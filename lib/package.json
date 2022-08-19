@@ -1,6 +1,6 @@
 {
   "name": "use-param-state",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "React hook that encodes and persist the state in the URL",
   "scripts": {
     "build": "parcel build --no-cache",

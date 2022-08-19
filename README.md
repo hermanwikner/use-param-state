@@ -1,6 +1,6 @@
 ## useParamState
 
-React hook that encodes and persist the state in the URL. It works pretty much like `useState`.
+React hook that encodes and stores the state in the URL. It works pretty much like `useState`.
 
 ### Installation
 
