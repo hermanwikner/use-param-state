@@ -2,6 +2,11 @@
 
 The `useParamState` hook is a variant of the `useState` hook, but it encodes the state and saves it in the url – and then decodes it.
 
+### Installation
+
+`yarn add use-param-state` or `npm i use-param-state`
+
+
 ### Usage
 
 The hook accepts an object as a prop with the following properties:
