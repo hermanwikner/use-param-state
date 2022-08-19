@@ -6,8 +6,6 @@ import {
   Container,
   Stack,
   Text,
-  Code,
-  Checkbox,
   Button,
 } from '@sanity/ui'
 import {useState} from 'react'
@@ -22,6 +20,8 @@ function Test() {
       bar: 'test',
     },
   })
+
+  const [test, setTest] = useParamState<string>({key: 'testar'})
 
   return (
     <Card border radius={2} padding={5}>
@@ -48,6 +48,8 @@ function Test() {
             }
             defaultValue={count?.bar}
           />
+
+          <TextInput onChange={(val: any) => setTest(val.target?.value)} defaultValue={test} />
         </Stack>
 
         <Stack space={2}>
@@ -56,6 +58,7 @@ function Test() {
           </Text>
           <Card height="fill">{count?.foo}</Card>
           <Card height="fill">{count?.bar}</Card>
+          <Card height="fill">{test}</Card>
         </Stack>
       </Stack>
     </Card>
@@ -69,8 +72,10 @@ export default function App() {
     <ThemeProvider theme={studioTheme}>
       <Card height="fill">
         <Container width={1} padding={5} sizing="border">
-          <Button onClick={() => setCount((v) => !v)} text="Show/hide" />
-          {count && <Test />}
+          <Stack space={2}>
+            <Button onClick={() => setCount((v) => !v)} text="Show/hide" />
+            {count && <Test />}
+          </Stack>
         </Container>
       </Card>
     </ThemeProvider>

@@ -6,11 +6,6 @@ React hook that encodes and persist the state in the URL. It works pretty much l
 
 `yarn add use-param-state` or `npm i use-param-state`
 
-### Installation
-
-`yarn add use-param-state` or `npm i use-param-state`
-
-
 ### Usage
 
 The hook accepts an object as a prop with the following properties:

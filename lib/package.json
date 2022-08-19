@@ -1,7 +1,7 @@
 {
   "name": "use-param-state",
-  "version": "0.0.0",
-  "description": "A variant of the React useState hook that saves the state in the url",
+  "version": "0.0.1",
+  "description": "React hook that encodes and persist the state in the URL",
   "scripts": {
     "build": "parcel build --no-cache",
     "watch": "rm -rf dist && parcel watch",

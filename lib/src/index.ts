@@ -1,11 +1,14 @@
 import {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from 'react'
 import {encode, tryDecode} from './utils'
 
-type ReturnType<S> = [S, Dispatch<SetStateAction<S>>]
+type ReturnType<S> = [S, Dispatch<SetStateAction<S>>, {removeParam: () => void}]
 type InitialStateType<S> = S | (() => S)
 type KeyType = string
 
 export function useParamState<S>(props: {
+  /**
+   * Clear the encoded state in the url on unmount
+   */
   clearOnUnmount?: boolean
   /**
    * The initial state
@@ -46,7 +49,8 @@ export function useParamState<S>(props: {
     }
 
     if (!hasEncodedValue) {
-      handleClear()
+      params?.delete(key)
+      history.replaceState(null, '', `${pathname}?${params}`)
     }
 
     setInternal(tryDecode(encoded, initialState))
@@ -62,5 +66,5 @@ export function useParamState<S>(props: {
     }
   }, [state, pathname, handleClear, clearOnUnmount])
 
-  return [internal, setState]
+  return [internal, setState, {removeParam: handleClear}]
 }
