@@ -12,31 +12,22 @@ import { useParamState } from "../lib";
 
 export default function App() {
   const [count, setCount] = useParamState<{ foo: string; bar: string }>(
-    "test",
+    "mjao",
     { foo: "hej", bar: "asdads" }
   );
+
+  const [test, setTest] = useParamState("test", "hello world");
 
   return (
     <ThemeProvider theme={studioTheme}>
       <Card height="fill">
         <Container width={1} padding={5} sizing="border">
-          <Stack>
-            <Card border radius={2} padding={5}>
-              <Code language="javascript" size={0}>
-                {`
-  const [count, setCount] = useParamState<{ foo: string; bar: string }>(
-    "test",
-    { foo: "hej", bar: "asdads" }
-  );
-`}
-              </Code>
-            </Card>
-
+          <Stack space={2}>
             <Card border radius={2} padding={5}>
               <Stack space={5}>
                 <Stack space={2}>
                   <Text size={1} weight="semibold">
-                    Update the state by typing in this input
+                    Update the state
                   </Text>
                   <TextInput
                     onChange={(val: any) =>
@@ -56,6 +47,10 @@ export default function App() {
                     }
                     defaultValue={count.bar}
                   />
+                  <TextInput
+                    onChange={(val: any) => setTest(val.target?.value)}
+                    defaultValue={test}
+                  />
                 </Stack>
 
                 <Stack space={2}>
@@ -64,6 +59,7 @@ export default function App() {
                   </Text>
                   <Card height="fill">{count.foo}</Card>
                   <Card height="fill">{count.bar}</Card>
+                  <Card height="fill">{test}</Card>
                 </Stack>
               </Stack>
             </Card>

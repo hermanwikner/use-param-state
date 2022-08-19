@@ -36,7 +36,7 @@ export function useParamState<S>(
   );
 
   const [state, setState] = useState<S>(_initial);
-  const [internal, setInternal] = useState(_initial);
+  const [internal, setInternal] = useState<S>(_initial);
 
   const handleStateChange = useCallback(() => {
     const encoded = state ? encode(JSON.stringify(state)) : "";
