@@ -16,38 +16,38 @@ export function useParamState<S>(
   key: KeyType,
   initialState: InitialStateType<S>
 ): ReturnType<S> {
-  const params = useMemo(() => {
-    if (typeof window !== "undefined") {
-      return new URLSearchParams(window.location.search);
-    }
-  }, []);
+  const params = new URLSearchParams(window.location.search);
+  const pathname = window.location.pathname;
 
-  const pathname = useMemo(() => {
-    if (typeof window !== undefined) {
-      return window.location.pathname;
-    }
-  }, []);
-
-  const paramsValue = params?.get(key);
-
-  const _initial = useMemo(
-    () => (paramsValue ? tryDecode(paramsValue, initialState) : initialState),
-    [paramsValue, initialState]
+  const _initialState = useMemo(
+    () =>
+      params?.get(key)
+        ? tryDecode(params?.get(key), initialState)
+        : initialState,
+    [params, initialState]
   );
 
-  const [state, setState] = useState<S>(_initial);
-  const [internal, setInternal] = useState<S>(_initial);
+  const [state, setState] = useState<S>(_initialState);
+  const [internal, setInternal] = useState<S>(_initialState);
 
   const handleStateChange = useCallback(() => {
     const encoded = state ? encode(JSON.stringify(state)) : "";
+    const hasEncodedValue = Boolean(encoded);
 
-    params?.set(key, encoded);
+    if (hasEncodedValue) {
+      params?.set(key, encoded);
+      const loc = `${pathname}?${params}`;
+      history.replaceState(null, "", loc);
+    }
 
-    const loc = `${pathname}?${params}`;
-    history.replaceState(null, "", loc);
+    if (!hasEncodedValue) {
+      const delParams = new URLSearchParams(window.location.search);
+      delParams?.delete(key);
+      history.replaceState(null, "", `${pathname}?${delParams}`);
+    }
 
     setInternal(tryDecode(encoded, initialState));
-  }, [state, initialState, pathname]);
+  }, [state, initialState, pathname, params]);
 
   useEffect(() => {
     handleStateChange();
