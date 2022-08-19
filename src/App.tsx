@@ -7,16 +7,18 @@ import {
   Stack,
   Text,
   Code,
+  Checkbox,
 } from "@sanity/ui";
 import { useParamState } from "../lib";
 
 export default function App() {
-  const [count, setCount] = useParamState<{ foo: string; bar: string }>(
-    "mjao",
-    { foo: "test", bar: "trestar" }
-  );
+  const [test, setTest] = useParamState({ key: "someKey" });
 
-  const [test, setTest] = useParamState("test", "Initial value");
+  const [count, setCount] = useParamState<{
+    foo: string;
+    bar: string;
+    bool: boolean;
+  }>({ key: "myKey" });
 
   return (
     <ThemeProvider theme={studioTheme}>
@@ -33,6 +35,7 @@ export default function App() {
                     onChange={(val: any) =>
                       setCount((p) => ({
                         bar: p?.bar,
+                        bool: p?.bool,
                         foo: val.target?.value,
                       }))
                     }
@@ -42,11 +45,24 @@ export default function App() {
                     onChange={(val: any) =>
                       setCount((p) => ({
                         foo: p?.foo,
+                        bool: p?.bool,
                         bar: val.target?.value,
                       }))
                     }
                     defaultValue={count?.bar}
                   />
+
+                  <Checkbox
+                    defaultChecked={count?.bool}
+                    onChange={(val: any) =>
+                      setCount((p) => ({
+                        foo: p?.foo,
+                        bar: p?.bar,
+                        bool: val.target?.checked,
+                      }))
+                    }
+                  />
+
                   <TextInput
                     onChange={(val: any) => setTest(val.target?.value)}
                     defaultValue={test}
@@ -59,6 +75,7 @@ export default function App() {
                   </Text>
                   <Card height="fill">{count?.foo}</Card>
                   <Card height="fill">{count?.bar}</Card>
+                  <Card height="fill">{count?.bool ? "true" : "false"}</Card>
                   <Card height="fill">{test}</Card>
                 </Stack>
               </Stack>
