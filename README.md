@@ -1,6 +1,6 @@
 # useParamState
 
-The `useParamState` is a hook is a variant of the `useState` hook, but it encodes the state and saves it in the url – and then decodes it.
+The `useParamState` hook is a variant of the `useState` hook, but it encodes the state and saves it in the url – and then decodes it.
 
 ### Usage
 
