@@ -14,7 +14,7 @@ import {useState} from 'react'
 import {useParamState} from '../lib'
 
 function Test() {
-  const [count, setCount] = useParamState<any>({
+  const [count, setCount] = useParamState<{foo: string; bar: string}>({
     key: 'myKey',
     clearOnUnmount: false,
     initialState: {
@@ -34,7 +34,6 @@ function Test() {
             onChange={(val: any) =>
               setCount((p) => ({
                 bar: p?.bar,
-                bool: p?.bool,
                 foo: val.target?.value,
               }))
             }
@@ -44,7 +43,6 @@ function Test() {
             onChange={(val: any) =>
               setCount((p) => ({
                 foo: p?.foo,
-                bool: p?.bool,
                 bar: val.target?.value,
               }))
             }
@@ -65,7 +63,7 @@ function Test() {
 }
 
 export default function App() {
-  const [count, setCount] = useState<any>(true)
+  const [count, setCount] = useState<boolean>(true)
 
   return (
     <ThemeProvider theme={studioTheme}>
