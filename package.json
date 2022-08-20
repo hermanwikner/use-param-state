@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-vite": "tsc && vite build",
+    "build-lib": "cd ./lib && yarn && yarn build",
+    "build": "yarn build-lib && yarn build-vite"
   },
   "dependencies": {
     "@sanity/ui": "^0.37.12",
