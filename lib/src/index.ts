@@ -7,10 +7,6 @@ type KeyType = string
 
 export function useParamState<S>(props: {
   /**
-   * Clear the encoded state in the url on unmount
-   */
-  clearOnUnmount?: boolean
-  /**
    * The initial state
    */
   initialState?: InitialStateType<S>
@@ -19,7 +15,7 @@ export function useParamState<S>(props: {
    */
   key: KeyType
 }): ReturnType<S> {
-  const {clearOnUnmount, initialState, key} = props
+  const {initialState, key} = props
 
   const _initialState = useMemo(() => {
     if (typeof window === 'undefined') {
@@ -63,13 +59,7 @@ export function useParamState<S>(props: {
     if (typeof window !== 'undefined') {
       handleStateChange()
     }
-
-    return () => {
-      if (clearOnUnmount) {
-        handleClear()
-      }
-    }
-  }, [state, handleClear, clearOnUnmount])
+  }, [state, handleClear])
 
   return [internal, setState, {removeParam: handleClear}]
 }

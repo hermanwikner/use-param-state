@@ -10,7 +10,6 @@ React hook that works much like `useState`, but it encodes the state and saves i
 
 The hook accepts an object as a prop with the following properties:
 
-- `clearOnUnmount?: boolean` – Clear the encoded state in the URL on unmount
 - `initialState?: <T>` – The initial state
 - `key: string` – The URL parameter key for the encoded state
 

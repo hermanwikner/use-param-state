@@ -1,6 +1,6 @@
 {
   "name": "use-param-state",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "React hook that works much like useState, but it encodes the state and saves it in a parameter in the URL",
   "scripts": {
     "build": "parcel build --no-cache",

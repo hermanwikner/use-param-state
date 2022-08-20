@@ -15,7 +15,6 @@ import {useParamState} from '../lib'
 function Test() {
   const [state, setState] = useParamState<{foo: string; bar: string; bool: boolean}>({
     key: 'myKey',
-    clearOnUnmount: false,
   })
 
   return (
