@@ -1,10 +1,6 @@
 ## useParamState
 
-React hook that encodes and stores the state in the URL. It works pretty much like `useState`.
-
-### Installation
-
-`yarn add use-param-state` or `npm i use-param-state`
+React hook that works much like `useState`, but it encodes the state and saves it in a parameter in the URL
 
 ### Installation
 
