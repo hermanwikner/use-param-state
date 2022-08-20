@@ -20,9 +20,12 @@ export function useParamState<S>(props: {
   key: KeyType
 }): ReturnType<S> {
   const {clearOnUnmount, initialState, key} = props
-  const pathname = window.location.pathname
 
   const _initialState = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return initialState
+    }
+
     const params = new URLSearchParams(window.location.search)
 
     return params?.get(key) ? tryDecode(params?.get(key), initialState) : initialState
@@ -32,15 +35,17 @@ export function useParamState<S>(props: {
   const [internal, setInternal] = useState<S>(_initialState)
 
   const handleClear = useCallback(() => {
+    const pathname = window.location.pathname
     const params = new URLSearchParams(window.location.search)
     params?.delete(key)
     history.replaceState(null, '', `${pathname}?${params}`)
-  }, [pathname, key])
+  }, [key])
 
   const handleStateChange = useCallback(() => {
     const encoded = state ? encode(JSON.stringify(state)) : ''
     const hasEncodedValue = Boolean(encoded)
     const params = new URLSearchParams(window.location.search)
+    const pathname = window.location.pathname
 
     if (hasEncodedValue) {
       params?.set(key, encoded)
@@ -52,10 +57,12 @@ export function useParamState<S>(props: {
     }
 
     setInternal(tryDecode(encoded, initialState))
-  }, [state, initialState, pathname, handleClear])
+  }, [state, initialState, handleClear])
 
   useEffect(() => {
-    handleStateChange()
+    if (typeof window !== 'undefined') {
+      handleStateChange()
+    }
 
     return () => {
       if (clearOnUnmount) {

@@ -1,6 +1,6 @@
 ## useParamState
 
-React hook that works much like `useState`, but it encodes the state and saves it in a parameter in the URL
+React hook that works much like `useState`, but it encodes the state and saves it in a parameter in the URL.
 
 ### Installation
 
@@ -10,7 +10,7 @@ React hook that works much like `useState`, but it encodes the state and saves i
 
 The hook accepts an object as a prop with the following properties:
 
-- `clearOnUnmout?: boolean` – Clear the encoded state in the URL on unmount
+- `clearOnUnmount?: boolean` – Clear the encoded state in the URL on unmount
 - `initialState?: <T>` – The initial state
 - `key: string` – The URL parameter key for the encoded state
 
