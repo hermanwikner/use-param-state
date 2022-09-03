@@ -12,9 +12,10 @@ import {
 } from '@sanity/ui'
 import {useParamState} from '../lib'
 
-function Test() {
+function Test({_key}: {_key: string}) {
   const [state, setState] = useParamState<{foo: string; bar: string; bool: boolean}>({
-    key: 'myKey',
+    key: _key,
+    clearOnUnmount: true,
   })
 
   return (
@@ -63,13 +64,24 @@ function Test() {
 }
 
 export default function App() {
+  const [test, setTest] = useParamState<boolean>({
+    initialState: false,
+    key: 'unMountTest',
+  })
+
   return (
     <ThemeProvider theme={studioTheme}>
       <Card height="fill">
         <Container width={1} padding={5} sizing="border">
           <Stack space={2}>
-            {/* <Button onClick={() => setState((v) => !v)} text="Show/hide" /> */}
-            <Test />
+            <Button onClick={() => setTest((v) => !v)} text="clearOnUnmount" />
+
+            {test && <Test key="test1" _key="test1" />}
+            {!test && (
+              <Card padding={2} tone="caution" border radius={2}>
+                <Test key="test2" _key="test" />
+              </Card>
+            )}
           </Stack>
         </Container>
       </Card>
